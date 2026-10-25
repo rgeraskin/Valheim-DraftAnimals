@@ -174,17 +174,16 @@ namespace DraftAnimals
             }
         }
 
-        /// <summary>Выпустить из инвентаря: ручной заяц появляется перед игроком.</summary>
+        /// <summary>Выпустить из инвентаря: ручной заяц появляется перед игроком на полу (в доме — не на крыше и не за стеной).</summary>
         public static void ReleaseFromInventory(Humanoid user, ItemDrop.ItemData item)
         {
             Vector3 forward = user.transform.forward;
             forward.y = 0f;
             forward = forward.sqrMagnitude > 0.01f ? forward.normalized : Vector3.forward;
-            Vector3 position = user.transform.position + forward * 1.2f;
-            if (ZoneSystem.instance != null)
-            {
-                position.y = Mathf.Max(position.y, ZoneSystem.instance.GetSolidHeight(position));
-            }
+            Vector3 feet = user.transform.position;
+            float distance = Ground.FreeDistance(feet + Vector3.up * 0.5f, forward, 1.2f, 0.35f);
+            Vector3 position = feet + forward * distance;
+            position.y = Ground.FloorHeight(position, 0.8f, 3f);
             if (Release(position, Quaternion.LookRotation(forward), item))
             {
                 user.GetInventory().RemoveItem(item);
@@ -240,10 +239,7 @@ namespace DraftAnimals
                 return;
             }
             Vector3 position = transform.position;
-            if (ZoneSystem.instance != null)
-            {
-                position.y = Mathf.Max(position.y - 0.5f, ZoneSystem.instance.GetSolidHeight(position));
-            }
+            position.y = Ground.FloorHeight(position, 0.3f, 5f);
             if (LiveHare.Release(position, Quaternion.Euler(0f, transform.eulerAngles.y, 0f), drop.m_itemData))
             {
                 view.Destroy();

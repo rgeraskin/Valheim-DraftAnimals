@@ -13,7 +13,7 @@ namespace DraftAnimals
     {
         public const string PluginGuid = "draftanimals";
         public const string PluginName = "Draft Animals";
-        public const string PluginVersion = "1.1.2";
+        public const string PluginVersion = "1.1.3";
 
         private Harmony m_harmony;
         private ConfigFileWatcher m_configWatcher;

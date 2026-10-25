@@ -557,7 +557,9 @@ namespace DraftAnimals
             forward.y = 0f;
             forward = forward.sqrMagnitude > 0.01f ? forward.normalized : Vector3.forward;
             Vector3 position = m_attachPoint.position + forward * animal.Config.HitchDistance.Value;
-            position.y = ZoneSystem.instance != null ? ZoneSystem.instance.GetSolidHeight(position) : position.y;
+            // Пол под зверем ищем от высоты тележки: под навесом GetSolidHeight поставил бы его на крышу.
+            position.y = transform.position.y;
+            position.y = Ground.FloorHeight(position, 1.5f, 4f);
             animal.BeginHitch(id, position, Quaternion.LookRotation(forward));
 
             m_searchTimer = 0f;
