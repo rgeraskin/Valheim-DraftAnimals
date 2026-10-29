@@ -9,8 +9,8 @@
     "url": "https://api.nexusmods.com",
     "game": "valheim",
     "modId": 4284,
-    "modFileId": "",
-    "name": "Draft Animals {version}",
+    "modFileId": "8105484",
+    "name": "DraftAnimals",
     "description": "Draft Animals {version}. Needs BepInExPack Valheim and Jotunn. Install on every player and on the server."
   }
 }
